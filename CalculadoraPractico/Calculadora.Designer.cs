@@ -42,15 +42,16 @@
             this.button13 = new System.Windows.Forms.Button();
             this.button14 = new System.Windows.Forms.Button();
             this.button15 = new System.Windows.Forms.Button();
-            this.btnC = new System.Windows.Forms.Button();
             this.btnCE = new System.Windows.Forms.Button();
             this.button20 = new System.Windows.Forms.Button();
             this.button4 = new System.Windows.Forms.Button();
             this.button8 = new System.Windows.Forms.Button();
             this.button12 = new System.Windows.Forms.Button();
             this.button16 = new System.Windows.Forms.Button();
-            this.label1 = new System.Windows.Forms.Label();
+            this.btnC = new System.Windows.Forms.Button();
             this.txtPantalla = new System.Windows.Forms.TextBox();
+            this.lstHistorial = new System.Windows.Forms.ListBox();
+            this.lblResultadoPrevio = new System.Windows.Forms.Label();
             this.tableLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -236,17 +237,6 @@
             this.button15.UseVisualStyleBackColor = true;
             this.button15.Click += new System.EventHandler(this.BotonNumero_Click);
             // 
-            // btnC
-            // 
-            this.btnC.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F);
-            this.btnC.Location = new System.Drawing.Point(259, 3);
-            this.btnC.Name = "btnC";
-            this.btnC.Size = new System.Drawing.Size(120, 83);
-            this.btnC.TabIndex = 18;
-            this.btnC.Text = "C";
-            this.btnC.UseVisualStyleBackColor = true;
-            this.btnC.Click += new System.EventHandler(this.btnC_Click);
-            // 
             // btnCE
             // 
             this.btnCE.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F);
@@ -313,15 +303,16 @@
             this.button16.UseVisualStyleBackColor = true;
             this.button16.Click += new System.EventHandler(this.BotonNumero_Click);
             // 
-            // label1
+            // btnC
             // 
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F);
-            this.label1.Location = new System.Drawing.Point(26, 19);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(222, 46);
-            this.label1.TabIndex = 1;
-            this.label1.Text = "Resultado :";
+            this.btnC.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F);
+            this.btnC.Location = new System.Drawing.Point(259, 3);
+            this.btnC.Name = "btnC";
+            this.btnC.Size = new System.Drawing.Size(120, 83);
+            this.btnC.TabIndex = 18;
+            this.btnC.Text = "C";
+            this.btnC.UseVisualStyleBackColor = true;
+            this.btnC.Click += new System.EventHandler(this.btnC_Click);
             // 
             // txtPantalla
             // 
@@ -331,15 +322,36 @@
             this.txtPantalla.Size = new System.Drawing.Size(512, 53);
             this.txtPantalla.TabIndex = 2;
             this.txtPantalla.Click += new System.EventHandler(this.BotonNumero_Click);
+            this.txtPantalla.TextChanged += new System.EventHandler(this.txtPantalla_TextChanged_1);
+            // 
+            // lstHistorial
+            // 
+            this.lstHistorial.FormattingEnabled = true;
+            this.lstHistorial.ItemHeight = 20;
+            this.lstHistorial.Location = new System.Drawing.Point(12, 12);
+            this.lstHistorial.Name = "lstHistorial";
+            this.lstHistorial.Size = new System.Drawing.Size(512, 64);
+            this.lstHistorial.TabIndex = 3;
+            // 
+            // lblResultadoPrevio
+            // 
+            this.lblResultadoPrevio.AutoSize = true;
+            this.lblResultadoPrevio.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F);
+            this.lblResultadoPrevio.Location = new System.Drawing.Point(12, 88);
+            this.lblResultadoPrevio.Name = "lblResultadoPrevio";
+            this.lblResultadoPrevio.Size = new System.Drawing.Size(174, 36);
+            this.lblResultadoPrevio.TabIndex = 4;
+            this.lblResultadoPrevio.Text = "Resultado : ";
             // 
             // Calculadora
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.SystemColors.ControlDark;
+            this.BackColor = System.Drawing.SystemColors.ButtonFace;
             this.ClientSize = new System.Drawing.Size(539, 654);
+            this.Controls.Add(this.lblResultadoPrevio);
+            this.Controls.Add(this.lstHistorial);
             this.Controls.Add(this.txtPantalla);
-            this.Controls.Add(this.label1);
             this.Controls.Add(this.tableLayoutPanel1);
             this.Name = "Calculadora";
             this.Text = "Form1";
@@ -369,12 +381,13 @@
         private System.Windows.Forms.Button button14;
         private System.Windows.Forms.Button button15;
         private System.Windows.Forms.Button button16;
-        private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button btnIgual;
         private System.Windows.Forms.Button btnC;
         private System.Windows.Forms.Button btnCE;
         private System.Windows.Forms.Button button20;
         private System.Windows.Forms.TextBox txtPantalla;
+        private System.Windows.Forms.ListBox lstHistorial;
+        private System.Windows.Forms.Label lblResultadoPrevio;
     }
 }
 
