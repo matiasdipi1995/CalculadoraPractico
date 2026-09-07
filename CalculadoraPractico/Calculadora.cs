@@ -48,16 +48,25 @@ namespace CalculadoraPractico
         {
             try
             {
-                string texto = txtPantalla.Text;
+
+                string operacionIngresada = txtPantalla.Text;
 
                 // Validamos que la pantalla no esté vacía ni contenga solo espacios
-                if (string.IsNullOrWhiteSpace(texto)) return;
+                if (string.IsNullOrWhiteSpace(operacionIngresada)) return;
 
+                StringBuilder operacionNormalizada = new StringBuilder(operacionIngresada);
+
+                for (int i = 0; i < operacionNormalizada.Length; i++)
+                {
+                    if (operacionNormalizada[i] == 'x' )
+                    { operacionNormalizada[i] = '*'; }
+                }            
+               
                 // Instanciamos DataTable para evaluar la expresión
                 DataTable dt = new DataTable();
 
                 // Compute evalúa la cadena respetando la jerarquía de operadores
-                object resultadoObjeto = dt.Compute(texto, null);
+                object resultadoObjeto = dt.Compute(operacionNormalizada.ToString(), null);
 
                 // Convertimos el resultado a double
                 double resultado = Convert.ToDouble(resultadoObjeto);
