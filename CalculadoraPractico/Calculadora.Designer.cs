@@ -66,6 +66,7 @@
             this.tableLayoutPanel1.Controls.Add(this.button2, 1, 1);
             this.tableLayoutPanel1.Controls.Add(this.btnIgual, 3, 4);
             this.tableLayoutPanel1.Controls.Add(this.button3, 2, 1);
+            this.tableLayoutPanel1.Controls.Add(this.button15, 1, 0);
             this.tableLayoutPanel1.Controls.Add(this.button5, 0, 2);
             this.tableLayoutPanel1.Controls.Add(this.button6, 1, 2);
             this.tableLayoutPanel1.Controls.Add(this.button7, 2, 2);
@@ -74,14 +75,13 @@
             this.tableLayoutPanel1.Controls.Add(this.button11, 1, 3);
             this.tableLayoutPanel1.Controls.Add(this.button13, 0, 4);
             this.tableLayoutPanel1.Controls.Add(this.button14, 1, 4);
-            this.tableLayoutPanel1.Controls.Add(this.button15, 2, 4);
-            this.tableLayoutPanel1.Controls.Add(this.btnCE, 1, 0);
             this.tableLayoutPanel1.Controls.Add(this.button20, 0, 0);
             this.tableLayoutPanel1.Controls.Add(this.button4, 3, 0);
             this.tableLayoutPanel1.Controls.Add(this.button8, 3, 1);
             this.tableLayoutPanel1.Controls.Add(this.button12, 3, 2);
             this.tableLayoutPanel1.Controls.Add(this.button16, 3, 3);
-            this.tableLayoutPanel1.Controls.Add(this.btnC, 2, 0);
+            this.tableLayoutPanel1.Controls.Add(this.btnC, 2, 4);
+            this.tableLayoutPanel1.Controls.Add(this.btnCE, 2, 0);
             this.tableLayoutPanel1.Location = new System.Drawing.Point(12, 195);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 5;
@@ -228,19 +228,19 @@
             // 
             // button15
             // 
-            this.button15.Font = new System.Drawing.Font("Microsoft Sans Serif", 30F);
-            this.button15.Location = new System.Drawing.Point(259, 359);
+            this.button15.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F);
+            this.button15.Location = new System.Drawing.Point(131, 3);
             this.button15.Name = "button15";
-            this.button15.Size = new System.Drawing.Size(122, 85);
+            this.button15.Size = new System.Drawing.Size(122, 83);
             this.button15.TabIndex = 15;
-            this.button15.Text = ",";
+            this.button15.Text = ")";
             this.button15.UseVisualStyleBackColor = true;
             this.button15.Click += new System.EventHandler(this.BotonNumero_Click);
             // 
             // btnCE
             // 
             this.btnCE.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F);
-            this.btnCE.Location = new System.Drawing.Point(131, 3);
+            this.btnCE.Location = new System.Drawing.Point(259, 3);
             this.btnCE.Name = "btnCE";
             this.btnCE.Size = new System.Drawing.Size(122, 83);
             this.btnCE.TabIndex = 19;
@@ -255,7 +255,7 @@
             this.button20.Name = "button20";
             this.button20.Size = new System.Drawing.Size(122, 83);
             this.button20.TabIndex = 20;
-            this.button20.Text = "%";
+            this.button20.Text = "(";
             this.button20.UseVisualStyleBackColor = true;
             this.button20.Click += new System.EventHandler(this.BotonNumero_Click);
             // 
@@ -306,7 +306,7 @@
             // btnC
             // 
             this.btnC.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F);
-            this.btnC.Location = new System.Drawing.Point(259, 3);
+            this.btnC.Location = new System.Drawing.Point(259, 359);
             this.btnC.Name = "btnC";
             this.btnC.Size = new System.Drawing.Size(120, 83);
             this.btnC.TabIndex = 18;

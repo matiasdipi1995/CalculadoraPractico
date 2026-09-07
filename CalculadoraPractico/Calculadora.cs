@@ -72,7 +72,7 @@ namespace CalculadoraPractico
                 double resultado = Convert.ToDouble(resultadoObjeto);
 
                 // 1. Guardamos la operación completa en el ListBox del historial
-                lstHistorial.Items.Add($"{texto} = {resultado}");
+                lstHistorial.Items.Add($"{operacionIngresada} = {resultado}");
 
                 // 2. Mantenemos el scroll del ListBox siempre enfocado en el último elemento
                 lstHistorial.TopIndex = lstHistorial.Items.Count - 1;
