@@ -9,10 +9,14 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
+// nan concatena, contanetalos operadores, no debe arrancar con operadores <= Listo solucionado
+// no debe arrancar con parentesis cerrados, agregar el porcentaje.
+
 namespace CalculadoraPractico
 {
     public partial class Calculadora : Form
     {
+        int contador = 0;
         public Calculadora()
         {
             InitializeComponent();
@@ -26,7 +30,105 @@ namespace CalculadoraPractico
         private void BotonNumero_Click(object sender, EventArgs e)
         {
             Button boton = (Button)sender;
-            txtPantalla.Text += boton.Text;
+            string textoBoton = boton.Text;
+            string textoPantalla = txtPantalla.Text;
+
+            // 1. Si la pantalla muestra un error previo, la limpiamos
+            if (textoPantalla == "Error" || textoPantalla == "NaN" || textoPantalla == "Infinity")
+            {
+                txtPantalla.Text = "";
+                textoPantalla = "";
+            }
+
+            // ==========================================
+            // CASO 1: El botón presionado es ')'
+            // ==========================================
+            if (textoBoton == ")")
+            {
+                if (string.IsNullOrWhiteSpace(textoPantalla)) return;
+                if (EsOperador(textoPantalla[textoPantalla.Length - 1])) return;
+                if (textoPantalla[textoPantalla.Length - 1] == '(') return;
+
+                int parentesisAbiertos = textoPantalla.Count(c => c == '(');
+                int parentesisCerrados = textoPantalla.Count(c => c == ')');
+
+                if (parentesisAbiertos > parentesisCerrados)
+                {
+                    txtPantalla.Text += ")";
+                }
+                return;
+            }
+
+            // ==========================================
+            // CASO 2: El botón presionado es '%'
+            // ==========================================
+            else if (textoBoton == "%")
+            {
+                if (string.IsNullOrWhiteSpace(textoPantalla)) return;
+
+                char ultimo = textoPantalla[textoPantalla.Length - 1];
+                // No se puede poner '%' tras un operador, un '(' u otro '%'
+                if (EsOperador(ultimo) || ultimo == '(' || ultimo == '%') return;
+
+                txtPantalla.Text += "%";
+                return;
+            }
+
+            // ==========================================
+            // CASO 3: El botón presionado es un OPERADOR (+, -, x, /)
+            // ==========================================
+            else if (EsOperador(textoBoton[0]))
+            {
+                if (string.IsNullOrWhiteSpace(textoPantalla)) return;
+
+                // Si el último carácter es un operador, REEMPLAZA
+                if (EsOperador(textoPantalla[textoPantalla.Length - 1]))
+                {
+                    txtPantalla.Text = textoPantalla.Substring(0, textoPantalla.Length - 1) + textoBoton;
+                }
+                else
+                {
+                    txtPantalla.Text += textoBoton;
+                }
+                return;
+            }
+
+            // ==========================================
+            // CASO 4: El botón presionado es '('
+            // ==========================================
+            else if (textoBoton == "(")
+            {
+                // Si el último carácter es un número, ')' o '%', inserta 'x('
+                if (textoPantalla.Length > 0 &&
+                   (char.IsDigit(textoPantalla[textoPantalla.Length - 1]) ||
+                    textoPantalla[textoPantalla.Length - 1] == ')' ||
+                    textoPantalla[textoPantalla.Length - 1] == '%'))
+                {
+                    txtPantalla.Text += "x(";
+                }
+                else
+                {
+                    txtPantalla.Text += "(";
+                }
+                return;
+            }
+            
+            // ==========================================
+            // CASO 6: El botón presionado es NÚMERO (0-9) o Punto (.)
+            // ==========================================
+            else
+            {
+                // Si la pantalla termina en ')' o '%', inserta 'x' antes del número
+                if (textoPantalla.Length > 0 &&
+                   (textoPantalla[textoPantalla.Length - 1] == ')' || textoPantalla[textoPantalla.Length - 1] == '%'))
+                {
+                    txtPantalla.Text += "x" + textoBoton;
+                }
+                else
+                {
+                    txtPantalla.Text += textoBoton;
+                }
+            }
         }
 
         private void btnCE_Click(object sender, EventArgs e)
@@ -48,39 +150,50 @@ namespace CalculadoraPractico
         {
             try
             {
-
                 string operacionIngresada = txtPantalla.Text;
 
-                // Validamos que la pantalla no esté vacía ni contenga solo espacios
-                if (string.IsNullOrWhiteSpace(operacionIngresada)) return;
+                // 1. Evitamos procesar si la pantalla está vacía o muestra un error previo
+                if (string.IsNullOrWhiteSpace(operacionIngresada) ||
+                    operacionIngresada == "Error" ||
+                    operacionIngresada == "NaN") return;
 
-                StringBuilder operacionNormalizada = new StringBuilder(operacionIngresada);
+                // 2. Normalizamos la cadena: reemplazamos 'x'/'X' por '*' y '%' por '/100'
+                // Normalizamos la cadena para que DataTable.Compute la entienda
+                string operacionNormalizada = operacionIngresada
+                    .Replace(",", ".")
+                    .Replace("x", "*")
+                    .Replace("X", "*")
+                    .Replace("%", "/100.0");
+                    
 
-                for (int i = 0; i < operacionNormalizada.Length; i++)
+                // 2. Cerramos automáticamente los paréntesis pendientes (ej: Sqrt(2  ->  Sqrt(2))
+                int abiertos = operacionNormalizada.Count(c => c == '(');
+                int cerrados = operacionNormalizada.Count(c => c == ')');
+
+                while (cerrados < abiertos)
                 {
-                    if (operacionNormalizada[i] == 'x' )
-                    { operacionNormalizada[i] = '*'; }
-                }            
-               
-                // Instanciamos DataTable para evaluar la expresión
+                    operacionNormalizada += ")";
+                    cerrados++;
+                }
+
                 DataTable dt = new DataTable();
-
-                // Compute evalúa la cadena respetando la jerarquía de operadores
-                object resultadoObjeto = dt.Compute(operacionNormalizada.ToString(), null);
-
-                // Convertimos el resultado a double
+                object resultadoObjeto = dt.Compute(operacionNormalizada, null);
                 double resultado = Convert.ToDouble(resultadoObjeto);
 
-                // 1. Guardamos la operación completa en el ListBox del historial
-                lstHistorial.Items.Add($"{texto} = {resultado}");
+                // 3. Validamos divisiones por cero u operaciones matemáticas indefinidas
+                if (double.IsNaN(resultado) || double.IsInfinity(resultado))
+                {
+                    txtPantalla.Text = "Error";
+                    lblResultadoPrevio.Text = "";
+                    return;
+                }
 
-                // 2. Mantenemos el scroll del ListBox siempre enfocado en el último elemento
+                // 4. Guardamos en el historial y enfocamos el último elemento
+                lstHistorial.Items.Add($"{operacionIngresada} = {resultado}");
                 lstHistorial.TopIndex = lstHistorial.Items.Count - 1;
 
-                // Mostramos el resultado en la pantalla principal
+                // 5. Mostramos el resultado y limpiamos la vista previa
                 txtPantalla.Text = resultado.ToString();
-
-                // Limpiamos la vista previa intermedia al presionar el igual
                 lblResultadoPrevio.Text = "";
             }
             catch (Exception)
@@ -129,7 +242,7 @@ namespace CalculadoraPractico
         // Función que ayuda a identificar si un carácter es un operador básico
         private bool EsOperador(char c)
         {
-            return c == '+' || c == '-' || c == '*' || c == '/';
+            return c == '+' || c == '-' || c == '*' || c == '/'|| c == 'x';
         }
 
         private void txtPantalla_TextChanged_1(object sender, EventArgs e)
