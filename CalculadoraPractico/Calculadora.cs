@@ -8,6 +8,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static System.Net.Mime.MediaTypeNames;
 
 // nan concatena, contanetalos operadores, no debe arrancar con operadores <= Listo solucionado
 // no debe arrancar con parentesis cerrados, agregar el porcentaje.
@@ -248,6 +249,18 @@ namespace CalculadoraPractico
         private void txtPantalla_TextChanged_1(object sender, EventArgs e)
         {
             CalcularEnTiempoReal();
+        }
+
+        private void lstHistorial_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (lstHistorial.SelectedIndex != -1)
+            {
+                string texto = lstHistorial.SelectedItem.ToString();
+
+                string[] textoDividido = texto.Split('=');
+
+                txtPantalla.Text = textoDividido[0];
+            }
         }
     }
 }
